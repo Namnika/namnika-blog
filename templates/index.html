@@ -1,0 +1,61 @@
+{% include 'header.html' ignore missing %}
+
+<!-- Vendor JS Files -->
+<script src="{{url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{url_for('static', filename='vendor/glightbox/js/glightbox.min.js')}}"></script>
+<script src="{{url_for('static', filename='vendor/isotope-layout/isotope.pkgd.min.js')}}"></script>
+<script src="{{url_for('static', filename='vendor/swiper/swiper-bundle.min.js')}}"></script>
+<script src="{{url_for('static', filename='vendor/php-email-form/validate.js')}}"></script>
+
+<!-- Template Main JS File -->
+<script src="{{url_for('static', filename='js/main.js')}}"></script>
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+        class="bi bi-arrow-up-short"></i></a>
+<body>
+
+<section id="hero">
+    <div class="hero-container">
+        <h1>Namnika's Blog</h1>
+        <h2>A collection of random musings</h2>
+        <a href="about" class="btn-get-started scrollto">Get Started</a>
+    </div>
+</section>
+
+<main id="main">
+    <section id="about" class="about">
+        <div class="container">
+            {% for post in all_posts: %}
+            <div class="row content">
+                <div class="pt-4">
+                    <h2><a class="first-post-title" href="{{ url_for('show_post', post_id=post.id) }}">
+                        {{ post.title}}</a>
+                    </h2>
+                    <h3>{{ post.subtitle }}</h3>
+                </div>
+                <div class="pt-4 pt-lg-0">
+                    <p class="fst-italic">
+                        Posted By
+                        <a class="posted-name" href="#">{{ post.author.name }}</a>
+
+                        on {{ post.date }}
+                        {% if current_user.id == 1 %}
+                        <a href="{{ url_for('delete_post', post_id=post.id) }}">✘</a>
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+            <hr class="hr">
+            {% endfor %}
+
+
+            <!-- New Post -->
+            <div class="clearfix ">
+                {% if current_user.id == 1 %}
+                <a class="btn btn-info float-right" href="{{ url_for('make_post') }}">Create New Post</a>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+</main>
+</body>
+{% include 'footer.html' ignore missing %}
